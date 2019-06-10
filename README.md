@@ -1,5 +1,9 @@
 # SimImmuneResponse
 
+Branch|[![Travis CI logo](TravisCI.png)](https://travis-ci.org)
+---|---
+`master`|[![Build Status](https://travis-ci.org/richelbilderbeek/SimImmuneResponse.svg?branch=master)](https://travis-ci.org/richelbilderbeek/SimImmuneResponse)
+
 Educational simulation of the human immune response using the C++ VCL library.
 
 ![](pics/ToolSimImmuneResponse_1_0.png)
