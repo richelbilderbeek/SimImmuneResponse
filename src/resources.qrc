@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="/images">
+    <file alias="about.png">resources/about.png</file>
+    <file alias="activated_bcell.png">resources/activated_bcell.png</file>
+    <file alias="activated_cytotoxic_tcell.png">resources/activated_cytotoxic_tcell.png</file>
+    <file alias="activated_thelper_cell.png">resources/activated_thelper_cell.png</file>
+    <file alias="antibody.png">resources/antibody.png</file>
+    <file alias="bcell.png">resources/bcell.png</file>
+    <file alias="cell_healthy.png">resources/cell_healthy.png</file>
+    <file alias="cell_infected.png">resources/cell_infected.png</file>
+    <file alias="cytokine.png">resources/cytokine.png</file>
+    <file alias="cytotoxic_tcell.png">resources/cytotoxic_tcell.png</file>
+    <file alias="macrophage_with_virus_particles.png">resources/macrophage_with_virus_particles.png</file>
+    <file alias="macrophage_without_virus_particles.png">resources/macrophage_without_virus_particles.png</file>
+    <file alias="thelper_cell.png">resources/thelper_cell.png</file>
+    <file alias="virus.png">resources/virus.png</file>
+  </qresource>
+</RCC>

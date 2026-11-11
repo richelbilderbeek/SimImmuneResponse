@@ -1,13 +1,21 @@
-language: generic
+language: cpp
 dist: bionic
+compiler: gcc
 
-install:
-  # Check dead links
-  - sudo apt-get install -qq npm
-  - npm config set strict-ssl false
-  - sudo npm install -g markdown-link-check
+addons:
+  apt:
+    packages:
+      - qt5-default
+      - npm
 
 script:
+  # Build and test
+  - qmake SimImmuneResponseTest.pro && make -j2
+  - QT_QPA_PLATFORM=offscreen ./SimImmuneResponseTest
+  - make distclean
+  - qmake SimImmuneResponse.pro && make -j2
   # Check dead links
+  - npm config set strict-ssl false
+  - sudo npm install -g markdown-link-check
   - rm .travis.yml
   - ./scripts/check_dead_links
