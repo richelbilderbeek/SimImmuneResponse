@@ -10,6 +10,8 @@ on:
       - .github/workflows/create_zensical_website.yaml
       - 'docs/**'
       - zensical.toml
+  # Allow running this workflow manually from the Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: read
