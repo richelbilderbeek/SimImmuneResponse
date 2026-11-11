@@ -1,38 +1,29 @@
 # SimImmuneResponse
 
-Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)
----|---
-`master`|[![Build Status](https://travis-ci.org/richelbilderbeek/SimImmuneResponse.svg?branch=master)](https://travis-ci.org/richelbilderbeek/SimImmuneResponse)
+[![Create Zensical website](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/create_zensical_website.yaml/badge.svg)](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/create_zensical_website.yaml)
+[![Build and test](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/build_and_test.yaml/badge.svg)](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/build_and_test.yaml)
 
 Educational simulation of the human immune response using C++ and Qt.
 
-Originally written in 2008 using the C++ VCL library (C++ Builder);
-the VCL version can be found in the Git history.
+- [Go to the nicely rendered website](https://richelbilderbeek.github.io/SimImmuneResponse/)
 
-![](pics/SimImmuneResponse_Qt.png)
+![SimImmuneResponse](docs/pics/screenshot_qt.png)
 
-## Build
+The code can be found in the folder `src`,
+the tests in `tests`, the website in `docs`.
+See [the building page](docs/building.md) for how to build the simulation.
 
-Requires a C++17 compiler and Qt 5 (Qt Widgets), e.g. on Debian/Ubuntu:
+## Files used by continuous integration scripts
 
-```
-sudo apt install qtbase5-dev qt5-qmake
-qmake SimImmuneResponse.pro
-make
-./SimImmuneResponse
-```
+<!-- markdownlint-disable MD013 --><!-- Tables cannot be split up over lines, hence will break 80 characters per line -->
 
-To run the tests:
+Filename                                  |Descriptions
+------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------
+[mlc_config.json](mlc_config.json)        |Configuration of the link checker, use `markdown-link-check --config mlc_config.json --quiet docs/**/*.md` to do link checking locally
+[.spellcheck.yml](.spellcheck.yml)        |Configuration of the spell checker, use `pyspelling -c .spellcheck.yml` to do spellcheck locally
+[.wordlist.txt](.wordlist.txt)            |Whitelisted words for the spell checker, use `pyspelling -c .spellcheck.yml` to do spellcheck locally
+[.markdownlint.jsonc](.markdownlint.jsonc)|Configuration of the markdown linter, use `markdownlint "**/*.md"` to do markdown linting locally. The name of this file is a default name.
+[.markdownlintignore](.markdownlintignore)|Files ignored by the markdown linter, use `markdownlint "**/*.md"` to do markdown linting locally. The name of this file is a default name.
+[zensical.toml](zensical.toml)            |Configuration of the website, use `./scripts/deploy_zensical_website_locally.sh` to view the website locally
 
-```
-qmake SimImmuneResponseTest.pro
-make
-./SimImmuneResponseTest
-```
-
-## Material
-
- * Download the Dutch lesson material: [doc](doc/TeachSimImmuneResponse.doc), [odt](doc/TeachSimImmuneResponse.odt), [pdf](doc/TeachSimImmuneResponse.pdf)
- * [Download the Windows executable](http://richelbilderbeek.nl/ToolSimImmuneResponseExe.zip)
- * Video's: [YouTube](https://youtu.be/nNvr51psO_0) [.ogv](http://richelbilderbeek.nl/sim_immune_response.ogv)
- * Download the Dutch evaluation material: [doc](doc/TeachTestSimImmuneResponse.doc), [odt](doc/TeachTestSimImmuneResponse.odt), [pdf](doc/TeachTestSimImmuneResponse.pdf)
+<!-- markdownlint-enable MD013 -->

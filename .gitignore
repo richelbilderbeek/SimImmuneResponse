@@ -37,3 +37,6 @@ qrc_*
 build*/
 SimImmuneResponse
 SimImmuneResponseTest
+
+# Zensical website
+site/

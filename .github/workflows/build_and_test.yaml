@@ -1,0 +1,27 @@
+# Build the simulation and run the tests
+name: Build and test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y build-essential qtbase5-dev qt5-qmake
+      - name: Build and run the tests
+        run: |
+          mkdir build_test
+          cd build_test
+          qmake ../SimImmuneResponseTest.pro
+          make -j4
+          QT_QPA_PLATFORM=offscreen ./SimImmuneResponseTest
+      - name: Build the simulation
+        run: |
+          mkdir build
+          cd build
+          qmake ../SimImmuneResponse.pro
+          make -j4
