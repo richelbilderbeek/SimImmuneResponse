@@ -182,9 +182,13 @@ QWidget* MainWindow::CreateOptions()
   row->addWidget(restart);
   layout->addLayout(row);
 
+  // In a web browser, the player quits by leaving the page
+  #ifndef Q_OS_WASM
   QPushButton* const quit = new QPushButton("Quit");
   quit->setFont(GetFont(12));
   layout->addWidget(quit);
+  connect(quit, &QPushButton::clicked, qApp, &QApplication::quit);
+  #endif
   layout->addStretch();
 
   connect(about, &QPushButton::clicked, this, &MainWindow::ShowAbout);
@@ -193,7 +197,6 @@ QWidget* MainWindow::CreateOptions()
     mSimWidget->Restart();
     UpdateFeedback();
   });
-  connect(quit, &QPushButton::clicked, qApp, &QApplication::quit);
   return options;
 }
 
@@ -205,9 +208,12 @@ void MainWindow::UpdateFeedback()
 
 void MainWindow::ShowAbout()
 {
-  QDialog dialog(this);
-  dialog.setWindowTitle("About");
-  QVBoxLayout* const layout = new QVBoxLayout(&dialog);
+  // Not using QDialog::exec, as a blocking event loop
+  // is not supported when running in a web browser
+  QDialog* const dialog = new QDialog(this);
+  dialog->setAttribute(Qt::WA_DeleteOnClose);
+  dialog->setWindowTitle("About");
+  QVBoxLayout* const layout = new QVBoxLayout(dialog);
 
   QHBoxLayout* const top = new QHBoxLayout;
   QLabel* const image = new QLabel;
@@ -255,7 +261,7 @@ void MainWindow::ShowAbout()
   layout->addWidget(license);
 
   QPushButton* const ok = new QPushButton("OK");
-  connect(ok, &QPushButton::clicked, &dialog, &QDialog::accept);
+  connect(ok, &QPushButton::clicked, dialog, &QDialog::accept);
   layout->addWidget(ok, 0, Qt::AlignRight);
-  dialog.exec();
+  dialog->open();
 }

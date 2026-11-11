@@ -27,6 +27,11 @@ int main(int argc, char* argv[])
   QApplication app(argc, argv);
   QApplication::setApplicationName("SimImmuneResponse");
   MainWindow window;
+  #ifdef Q_OS_WASM
+  // The web page is the window: no title bar, top-left of the canvas
+  window.setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+  window.move(0, 0);
+  #endif
   window.show();
   return app.exec();
 }

@@ -1,4 +1,11 @@
 # Adapted from https://zensical.org/docs/publish-your-site/#with-github-actions
+#
+# Builds the WebAssembly version of SimImmuneResponse,
+# puts it on the 'Play' page of the website,
+# tests that it can be played in a web browser,
+# and then deploys the website.
+#
+# Similar to https://github.com/richelbilderbeek/beer_sim
 name: Create Zensical website
 
 
@@ -9,9 +16,19 @@ on:
     paths:
       - .github/workflows/create_zensical_website.yaml
       - 'docs/**'
+      - 'scripts/test_play_page.py'
+      - 'src/**'
+      - '*.pro'
       - zensical.toml
+  pull_request:
   # Allow running this workflow manually from the Actions tab
   workflow_dispatch:
+
+env:
+  # A version of Qt only works with one version of Emscripten, see
+  # https://doc.qt.io/qt-6/wasm.html#installing-emscripten
+  QT_VERSION: 6.8.3
+  EMSCRIPTEN_VERSION: 3.1.56
 
 permissions:
   contents: read
@@ -19,20 +36,75 @@ permissions:
   id-token: write
 
 jobs:
+  build_wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          host: all_os
+          target: wasm
+          arch: wasm_singlethread
+          cache: true
+
+      - uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+
+      - run: qmake SimImmuneResponse.pro
+      - run: make --silent
+
+      - name: Collect the files needed to run the game
+        run: |
+          mkdir wasm
+          cp SimImmuneResponse.html SimImmuneResponse.js SimImmuneResponse.wasm qtloader.js qtlogo.svg wasm/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SimImmuneResponse_wasm
+          path: wasm
+          if-no-files-found: error
+
   create_zensical_website:
+    needs: build_wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: SimImmuneResponse_wasm
+          path: docs/game
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - run: pip install pillow playwright zensical
+      - run: playwright install --with-deps chromium
+      - run: zensical build --clean --strict
+
+      - name: Play the game on the website
+        run: |
+          python -m http.server 8000 --directory site &
+          sleep 1
+          python scripts/test_play_page.py http://localhost:8000/play/
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy_zensical_website:
+    # Only deploy from the master branch, not from pull requests
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+    needs: create_zensical_website
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/configure-pages@v5
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - run: pip install zensical
-      - run: zensical build --clean --strict
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: site
-      - uses: actions/deploy-pages@v4
+      - id: deployment
+        uses: actions/deploy-pages@v4

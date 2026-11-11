@@ -41,6 +41,16 @@ QColor GetBackgroundColor(const EnumLocation location)
   return Qt::white;
 }
 
+/// The position of a mouse event, for both Qt 5 and Qt 6
+QPoint GetPos(const QMouseEvent* const event)
+{
+  #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+  return event->position().toPoint();
+  #else
+  return event->pos();
+  #endif
+}
+
 } // namespace
 
 SimWidget::SimWidget(QWidget* parent)
@@ -150,7 +160,7 @@ void SimWidget::paintEvent(QPaintEvent*)
 void SimWidget::mousePressEvent(QMouseEvent* event)
 {
   if (event->button() != Qt::LeftButton || mDragged) return;
-  const QPoint pos = Clamp(event->pos());
+  const QPoint pos = Clamp(GetPos(event));
   const EnumLocation location = GetLocation(pos);
   const QPoint local = pos - GetOrigin(location);
   mDragged = mSim.GrabSprite(location, local.x(), local.y());
@@ -163,14 +173,14 @@ void SimWidget::mousePressEvent(QMouseEvent* event)
 void SimWidget::mouseMoveEvent(QMouseEvent* event)
 {
   if (!mDragged) return;
-  mDragPos = Clamp(event->pos());
+  mDragPos = Clamp(GetPos(event));
   update();
 }
 
 void SimWidget::mouseReleaseEvent(QMouseEvent* event)
 {
   if (event->button() != Qt::LeftButton || !mDragged) return;
-  const QPoint pos = Clamp(event->pos());
+  const QPoint pos = Clamp(GetPos(event));
   const EnumLocation location = GetLocation(pos);
   const QPoint local = pos - GetOrigin(location);
   mDragged->SetX(local.x());

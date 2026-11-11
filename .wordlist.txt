@@ -27,3 +27,4 @@ toml
 txt
 wordlist
 yml
+WebAssembly

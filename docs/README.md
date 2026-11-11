@@ -21,6 +21,7 @@ Lymph node   |Where immune cells meet and get activated
 
 ## Where to go next
 
+- [Play](play.md): play SimImmuneResponse in your web browser
 - [How to play](playing.md): the cells and the steps of the immune response
 - [Lesson material](lesson_material.md): Dutch lesson and test material
 - [Building](building.md): how to build and run the simulation

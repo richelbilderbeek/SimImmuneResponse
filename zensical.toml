@@ -8,6 +8,7 @@ edit_uri = "blob/master/docs/"
 
 nav = [
   { "Start" = "README.md"},
+  "play.md",
   "playing.md",
   "lesson_material.md",
   "building.md",
