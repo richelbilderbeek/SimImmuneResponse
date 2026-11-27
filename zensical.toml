@@ -4,7 +4,7 @@ site_description = "Educational simulation of the human immune response"
 site_author = "Richel Bilderbeek"
 site_url = "https://richelbilderbeek.github.io/SimImmuneResponse/"
 repo_url = "https://github.com/richelbilderbeek/SimImmuneResponse"
-edit_uri = "blob/master/docs/"
+edit_uri = "blob/main/docs/"
 
 nav = [
   { "Start" = "README.md"},

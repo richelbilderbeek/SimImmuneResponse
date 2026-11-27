@@ -1,5 +1,7 @@
 # SimImmuneResponse
 
+[![Codecov](https://codecov.io/gh/richelbilderbeek/SimImmuneResponse/branch/main/graph/badge.svg)](https://codecov.io/gh/richelbilderbeek/SimImmuneResponse)
+
 [![Create Zensical website](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/create_zensical_website.yaml/badge.svg)](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/create_zensical_website.yaml)
 [![Build and test](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/build_and_test.yaml/badge.svg)](https://github.com/richelbilderbeek/SimImmuneResponse/actions/workflows/build_and_test.yaml)
 
